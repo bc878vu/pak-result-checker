@@ -4,7 +4,9 @@ A responsive, integration-ready Pakistan educational board result checker for 9t
 
 ## Current MVP
 
-- Board selector with major Pakistan boards
+- Province / region selector
+- City / board selector with board-specific city labels
+- Filterable board directory
 - Class selector: 9th, 10th, 11th, 12th
 - Year selector: 2018–2026
 - Annual and Supplementary / 2nd Annual options
@@ -21,7 +23,7 @@ The included record is **demo data only**. No unofficial scraping or private stu
 
 1. Add an API layer and provider adapter system.
 2. Integrate Lahore Board through an authorized source.
-3. Add result verification/error handling and rate limiting.
+3. Add result verification, error handling and rate limiting.
 4. Add all boards with board-specific field mappings.
 5. Add old/new result archive handling.
 6. Add SEO pages, sitemap and PWA support.
