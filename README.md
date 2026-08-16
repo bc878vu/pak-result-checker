@@ -15,10 +15,10 @@ A fast, professional, mobile-first Pakistan education result gateway for 9th, 10
 - Vercel serverless `/api/result` endpoint
 - Board-provider architecture with safe fallback to the selected board's official result portal
 - Professional responsive result card with print / save-to-PDF flow
-- Reserved ad placements with optional Google AdSense configuration
+- Reserved Google AdSense placements with publisher/slot placeholders
+- Trust, About, Contact, Terms, Privacy and Disclaimer pages
 - SEO metadata, Open Graph tags, canonical URL, robots.txt and sitemap.xml
 - PWA manifest
-- Privacy and result-disclaimer pages
 - Mobile-first responsive UI
 
 ## Real-result policy
@@ -31,11 +31,19 @@ When an automated provider is not configured, the user gets a direct **Official 
 
 `User Search → /api/result → Board Provider → Normalize → Professional Result Card`
 
-Authorized providers can be added board-by-board without changing the frontend result-card design.
+Authorized providers can be added board-by-board without changing the frontend result-card design. Provider credentials belong in Vercel environment variables, never in GitHub.
 
-## Advertising
+Generic provider variables follow this pattern:
 
-Ad containers are present but disabled by default. To enable Google AdSense, use the site's own approved publisher ID and ad-slot IDs in `ads.js` and set `enabled: true`. Never use another publisher's credentials or fake ad units.
+`RESULT_PROVIDER_<BOARD_SLUG>_URL`
+
+`RESULT_PROVIDER_<BOARD_SLUG>_KEY`
+
+## Advertising / monetization
+
+The website contains responsive ad placements and an AdSense loader, but the repository contains only placeholders. Replace the placeholder publisher ID and slot IDs in `ads.js` with the publisher's own approved AdSense credentials after the site is accepted by Google. Add the matching `ads.txt` publisher record when Google provides it.
+
+AdSense approval and earnings are controlled by Google and are not guaranteed by the codebase. The site must remain compliant with Google's current publisher policies, privacy/consent requirements and ad-placement rules.
 
 ## Production
 
