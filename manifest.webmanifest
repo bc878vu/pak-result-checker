@@ -1,10 +1,17 @@
 {
-  "name": "Pak Result Checker",
+  "name": "Pak Result Checker — Pakistan Board Results",
   "short_name": "Pak Results",
-  "description": "Pakistan board result checker for 9th, 10th, 11th and 12th classes.",
-  "start_url": "/",
+  "description": "Check Pakistan education board results for 9th, 10th, 11th and 12th classes.",
+  "lang": "en-PK",
+  "dir": "ltr",
+  "start_url": "/#check",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#f7faf8",
-  "theme_color": "#08623f",
-  "icons": []
+  "theme_color": "#075b3b",
+  "categories": ["education", "utilities"],
+  "icons": [
+    {"src":"/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
 }
