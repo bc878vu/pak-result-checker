@@ -1,3 +1,5 @@
+const { lookupResult } = require('./providers');
+
 const DEMO_RESULT = {
   roll: '123456',
   name: 'Muhammad Ali',
@@ -6,33 +8,49 @@ const DEMO_RESULT = {
   className: '10th / SSC-II',
   year: '2026',
   exam: 'Annual',
+  status: 'PASS',
   subjects: [
-    ['English', 78, 100, 'A'],
-    ['Urdu', 81, 100, 'A'],
-    ['Mathematics', 92, 100, 'A+'],
-    ['Physics', 84, 100, 'A'],
-    ['Chemistry', 79, 100, 'A'],
-    ['Computer Science', 88, 100, 'A'],
-    ['Islamiyat', 47, 50, 'A+']
+    { name: 'English', obtained: 78, total: 100, grade: 'A' },
+    { name: 'Urdu', obtained: 81, total: 100, grade: 'A' },
+    { name: 'Mathematics', obtained: 92, total: 100, grade: 'A+' },
+    { name: 'Physics', obtained: 84, total: 100, grade: 'A' },
+    { name: 'Chemistry', obtained: 79, total: 100, grade: 'A' },
+    { name: 'Computer Science', obtained: 88, total: 100, grade: 'A' },
+    { name: 'Islamiyat', obtained: 47, total: 50, grade: 'A+' }
   ]
 };
 
 const ALLOWED = {
-  boards: new Set(['BISE Lahore']),
-  classes: new Set(['9th / SSC-I', '10th / SSC-II', '11th / HSSC-I', '12th / HSSC-II']),
-  exams: new Set(['Annual', 'Supplementary / 2nd Annual'])
+  boards: new Set([
+    'BISE Lahore','BISE Gujranwala','BISE Faisalabad','BISE Rawalpindi','BISE Multan',
+    'BISE Karachi','Federal Board (FBISE)','BISE Peshawar'
+  ]),
+  classes: new Set(['9th / SSC-I','10th / SSC-II','11th / HSSC-I','12th / HSSC-II']),
+  exams: new Set(['Annual','Supplementary / 2nd Annual'])
 };
 
 function json(res, status, body) {
   res.status(status).setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.end(JSON.stringify(body));
+  res.setHeader('Cache-Control', 'no-store');
+  return res.end(JSON.stringify(body));
 }
 
 function clean(value, max = 100) {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
 }
 
-module.exports = (req, res) => {
+function demoLookup({ board, className, year, exam, searchType, search }) {
+  const matches = board === DEMO_RESULT.board &&
+    className === DEMO_RESULT.className && year === DEMO_RESULT.year && exam === DEMO_RESULT.exam &&
+    (searchType === 'roll'
+      ? search === DEMO_RESULT.roll
+      : search.toLowerCase() === DEMO_RESULT.name.toLowerCase());
+
+  if (!matches) return null;
+  return { ...DEMO_RESULT, board, className, year, exam };
+}
+
+module.exports = async (req, res) => {
   if (req.method !== 'GET' && req.method !== 'POST') {
     res.setHeader('Allow', 'GET, POST');
     return json(res, 405, { ok: false, error: 'Method not allowed' });
@@ -49,26 +67,35 @@ module.exports = (req, res) => {
   if (!board || !className || !year || !exam || !search) {
     return json(res, 400, { ok: false, error: 'board, className, year, exam and search are required' });
   }
-
   if (!ALLOWED.boards.has(board) || !ALLOWED.classes.has(className) || !ALLOWED.exams.has(exam) || !/^20\d{2}$/.test(year)) {
     return json(res, 400, { ok: false, error: 'Unsupported result search parameters' });
   }
 
-  // Development provider only. Replace this provider with an authorized board/API adapter before production.
-  const matches = searchType === 'roll'
-    ? search === DEMO_RESULT.roll
-    : search.toLowerCase() === DEMO_RESULT.name.toLowerCase();
+  // Production path: board-specific authorized provider.
+  const provider = await lookupResult(board, { roll: searchType === 'roll' ? search : '', name: searchType === 'name' ? search : '', className, year, exam });
 
-  if (!matches) {
-    return json(res, 404, { ok: false, found: false, source: 'demo', error: 'No result found' });
+  if (provider.status === 'found') {
+    return json(res, 200, { ok: true, found: true, source: 'authorized-provider', official: true, result: provider.result });
+  }
+  if (provider.status === 'not_found') {
+    return json(res, 404, { ok: false, found: false, source: 'authorized-provider', official: true, error: 'No result found' });
   }
 
-  return json(res, 200, {
-    ok: true,
-    found: true,
-    source: 'demo',
+  // Safe development fallback. Never presents the demo record as official.
+  const demo = demoLookup({ board, className, year, exam, searchType, search });
+  if (demo) {
+    return json(res, 200, {
+      ok: true, found: true, source: 'demo', official: false,
+      notice: 'Demo record only. Not an official board result. Configure the authorized provider to enable live results.',
+      result: demo
+    });
+  }
+
+  return json(res, 503, {
+    ok: false,
+    found: false,
+    source: 'provider-unavailable',
     official: false,
-    notice: 'Demo record only. Not an official board result.',
-    result: { ...DEMO_RESULT, board, className, year, exam }
+    error: provider.reason || 'Live result provider is not configured for this board yet'
   });
 };
