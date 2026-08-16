@@ -10,11 +10,35 @@ const DEMO_RESULT = {
     { name: 'Islamiyat', obtained: 47, total: 50, grade: 'A+' }
   ]
 };
-const OFFICIAL_SOURCES = { 'BISE Lahore': 'https://result.biselahore.com/' };
-const ALLOWED = {
-  boards: new Set(['BISE Lahore','BISE Gujranwala','BISE Faisalabad','BISE Rawalpindi','BISE Multan','BISE Karachi','Federal Board (FBISE)','BISE Peshawar']),
-  classes: new Set(['9th / SSC-I','10th / SSC-II','11th / HSSC-I','12th / HSSC-II']), exams: new Set(['Annual','Supplementary / 2nd Annual'])
+
+const OFFICIAL_SOURCES = {
+  'BISE Lahore':'https://result.biselahore.com/',
+  'BISE Gujranwala':'https://www.bisegrw.online/',
+  'BISE Rawalpindi':'https://results.biserawalpindi.edu.pk/',
+  'BISE Multan':'https://results.bisemultan.edu.pk/',
+  'BISE Faisalabad':'https://result.bisefsd.edu.pk/',
+  'BISE Sargodha':'https://www.bisesargodha.edu.pk/content/BoardResult.aspx',
+  'BISE Bahawalpur':'https://bisebwp.edu.pk/',
+  'BISE DG Khan':'https://www.bisedgkhan.edu.pk/result/res-int-all.php',
+  'BISE Sahiwal':'https://bisesahiwal.edu.pk/',
+  'Federal Board (FBISE)':'https://www.fbise.edu.pk/',
+  'BSEK Karachi':'https://www.bsek.edu.pk/',
+  'BIEK Karachi':'https://www.biek.edu.pk/Result-Declaration-default.asp',
+  'BISE Hyderabad':'https://bisehyd.edu.pk/',
+  'BISE Sukkur':'https://bisesuksindh.edu.pk/',
+  'BISE Larkana':'https://www.biselrk.edu.pk/ResultsHSC.aspx/Default.aspx',
+  'BISE Peshawar':'https://www.bisep.gov.pk/allresults/',
+  'BISE Mardan':'https://web.bisemdn.edu.pk/',
+  'BISE Abbottabad':'https://www.biseatd.edu.pk/exams/r_ssc_a/r_ssc_a.php',
+  'BISE Swat':'https://portal1.bisess.edu.pk/site/home/results-section',
+  'BISE Bannu':'https://portal.biseb.edu.pk/biseb_online_admission/OnlineDMC/',
+  'BISE Kohat':'https://www.bisekt.edu.pk/result',
+  'BISE Dera Ismail Khan':'https://www.bisedik.edu.pk/',
+  'BISE Malakand':'https://www.bisemalakand.edu.pk/result',
+  'BISE Quetta (BBISE)':'https://result.bbise.edu.pk/',
+  'AJK BISE Mirpur':'https://ajkbise.edu.pk/'
 };
+const ALLOWED={boards:new Set(Object.keys(OFFICIAL_SOURCES)),classes:new Set(['9th / SSC-I','10th / SSC-II','11th / HSSC-I','12th / HSSC-II']),exams:new Set(['Annual','Supplementary / 2nd Annual'])};
 function json(res,status,body){res.status(status).setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');return res.end(JSON.stringify(body));}
 function clean(v,max=100){return typeof v==='string'?v.trim().slice(0,max):'';}
 function demoLookup({board,className,year,exam,searchType,search}){const matches=board===DEMO_RESULT.board&&className===DEMO_RESULT.className&&year===DEMO_RESULT.year&&exam===DEMO_RESULT.exam&&(searchType==='roll'?search===DEMO_RESULT.roll:search.toLowerCase()===DEMO_RESULT.name.toLowerCase());return matches?{...DEMO_RESULT,board,className,year,exam}:null;}
@@ -28,5 +52,5 @@ module.exports=async(req,res)=>{
   if(provider.status==='not_found')return json(res,404,{ok:false,found:false,source:'authorized-provider',official:true,error:'No result found'});
   const demo=demoLookup({board,className,year,exam,searchType,search});
   if(demo)return json(res,200,{ok:true,found:true,source:'demo',official:false,notice:'Demo record only. Not an official board result.',result:demo});
-  return json(res,503,{ok:false,found:false,source:'provider-unavailable',official:false,error:provider.reason||'Live result provider is not configured for this board yet',officialSource:OFFICIAL_SOURCES[board]||null,officialSourceName:OFFICIAL_SOURCES[board]?'Official '+board+' result portal':null,captchaRequired:board==='BISE Lahore'});
+  return json(res,503,{ok:false,found:false,source:'provider-unavailable',official:false,error:provider.reason||'Live result provider is not configured for this board yet',officialSource:OFFICIAL_SOURCES[board],officialSourceName:'Official '+board+' result portal',captchaRequired:['BISE Lahore','BSEK Karachi','BIEK Karachi','BISE Kohat'].includes(board)});
 };
