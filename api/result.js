@@ -47,10 +47,17 @@ module.exports=async(req,res)=>{
   const input=req.method==='GET'?req.query:(req.body||{}),board=clean(input.board),className=clean(input.className),year=clean(input.year,4),exam=clean(input.exam),searchType=input.searchType==='name'?'name':'roll',search=clean(input.search,80);
   if(!board||!className||!year||!exam||!search)return json(res,400,{ok:false,error:'board, className, year, exam and search are required'});
   if(!ALLOWED.boards.has(board)||!ALLOWED.classes.has(className)||!ALLOWED.exams.has(exam)||!/^20\d{2}$/.test(year))return json(res,400,{ok:false,error:'Unsupported result search parameters'});
+
+  // Real results always take priority. A demo record is never exposed unless
+  // explicitly enabled in the deployment environment.
   const provider=await lookupResult(board,{roll:searchType==='roll'?search:'',name:searchType==='name'?search:'',className,year,exam});
   if(provider.status==='found')return json(res,200,{ok:true,found:true,source:'authorized-provider',official:true,result:provider.result});
   if(provider.status==='not_found')return json(res,404,{ok:false,found:false,source:'authorized-provider',official:true,error:'No result found'});
-  const demo=demoLookup({board,className,year,exam,searchType,search});
-  if(demo)return json(res,200,{ok:true,found:true,source:'demo',official:false,notice:'Demo record only. Not an official board result.',result:demo});
+
+  if(process.env.ENABLE_DEMO_RESULT==='true'){
+    const demo=demoLookup({board,className,year,exam,searchType,search});
+    if(demo)return json(res,200,{ok:true,found:true,source:'demo',official:false,notice:'Demo record only. Not an official board result.',result:demo});
+  }
+
   return json(res,503,{ok:false,found:false,source:'provider-unavailable',official:false,error:provider.reason||'Live result provider is not configured for this board yet',officialSource:OFFICIAL_SOURCES[board],officialSourceName:'Official '+board+' result portal',captchaRequired:['BISE Lahore','BSEK Karachi','BIEK Karachi','BISE Kohat'].includes(board)});
 };
