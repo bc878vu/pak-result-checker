@@ -1,0 +1,10 @@
+{
+  "name": "Pak Result Checker",
+  "short_name": "Pak Results",
+  "description": "Pakistan board result checker for 9th, 10th, 11th and 12th classes.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7faf8",
+  "theme_color": "#08623f",
+  "icons": []
+}
