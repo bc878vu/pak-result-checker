@@ -13,6 +13,11 @@ A responsive, integration-ready Pakistan educational board result checker for 9t
 - Roll-number and student-name search modes
 - Vercel serverless `/api/result` endpoint
 - Frontend-to-API result search flow
+- Professional responsive result card with print / save-to-PDF flow
+- Reserved ad placements with optional Google AdSense configuration
+- SEO metadata, Open Graph tags, canonical URL, robots.txt and sitemap.xml
+- PWA manifest
+- Privacy and result-disclaimer pages
 - Mobile-first responsive UI
 - Demo result modal with marks, grades, percentage and print action
 - Vercel-ready deployment
@@ -23,6 +28,10 @@ The included record is **demo data only**. No unofficial scraping or private stu
 
 The API endpoint is intentionally provider-ready: board validation and response normalization are separated from the UI so authorized providers can be added without redesigning the result page.
 
+## Advertising
+
+Ad containers are present but disabled by default. To enable Google AdSense, replace the placeholder publisher/slot values in `ads.js` with the site's own approved AdSense values and set `enabled: true`. Do not use another publisher's ID or fake ad units.
+
 ## Next build phase
 
 1. Create a provider adapter interface for board-specific integrations.
@@ -30,7 +39,7 @@ The API endpoint is intentionally provider-ready: board validation and response 
 3. Add result verification, error handling, caching and rate limiting.
 4. Add all boards with board-specific field mappings.
 5. Add old/new result archive handling.
-6. Add SEO pages, sitemap and PWA support.
+6. Add dedicated SEO landing pages for each board/class/year combination.
 7. Add monitoring and production security controls.
 
 ## Run
