@@ -10,31 +10,7 @@ window.PAK_ADS={
 (function initPublicResources(){
   const resources=document.createElement('section');
   resources.className='public-resources';
-  resources.innerHTML=`
-    <div class="public-resources-inner">
-      <div class="public-announcement">
-        <span class="public-badge">📢 RESULT UPDATE</span>
-        <h2>All Punjab educational boards (BISE) will announce the Matric (Class 10th) examination results tomorrow morning at 10 AM, Insha'Allah.</h2>
-        <p>Best wishes and prayers to all students that you receive the best rewards for your hard work.</p>
-      </div>
-      <div class="punjab-links">
-        <div class="public-heading"><span class="eyebrow">PUNJAB BOARDS</span><h3>Official board websites</h3></div>
-        <div class="punjab-grid">
-          <a href="https://www.biselahore.com/" target="_blank" rel="noopener noreferrer"><b>1️⃣ BISE Lahore</b><small>www.biselahore.com</small></a>
-          <a href="https://www.bisefsd.edu.pk/" target="_blank" rel="noopener noreferrer"><b>2️⃣ BISE Faisalabad</b><small>www.bisefsd.edu.pk</small></a>
-          <a href="https://www.bisegrw.edu.pk/" target="_blank" rel="noopener noreferrer"><b>3️⃣ BISE Gujranwala</b><small>www.bisegrw.edu.pk</small></a>
-          <a href="https://www.biserwp.edu.pk/" target="_blank" rel="noopener noreferrer"><b>4️⃣ BISE Rawalpindi</b><small>www.biserwp.edu.pk</small></a>
-          <a href="https://www.bisemultan.edu.pk/" target="_blank" rel="noopener noreferrer"><b>5️⃣ BISE Multan</b><small>www.bisemultan.edu.pk</small></a>
-          <a href="https://www.bisesargodha.edu.pk/" target="_blank" rel="noopener noreferrer"><b>6️⃣ BISE Sargodha</b><small>www.bisesargodha.edu.pk</small></a>
-          <a href="https://www.bisebwp.edu.pk/" target="_blank" rel="noopener noreferrer"><b>7️⃣ BISE Bahawalpur</b><small>www.bisebwp.edu.pk</small></a>
-          <a href="https://www.bisedgkhan.edu.pk/" target="_blank" rel="noopener noreferrer"><b>8️⃣ BISE DG Khan</b><small>www.bisedgkhan.edu.pk</small></a>
-          <a href="https://www.bisesahiwal.edu.pk/" target="_blank" rel="noopener noreferrer"><b>9️⃣ BISE Sahiwal</b><small>www.bisesahiwal.edu.pk</small></a>
-        </div>
-        <div class="resource-actions">
-          <a class="resource-btn" href="https://drive.google.com/drive/folders/1DcUxsbm6SxqLqGGJ_Nx3Sci0A-sNXpiW?usp=sharing" target="_blank" rel="noopener noreferrer">📄 All Punjab Boards Result Gazette PDF ↗</a>
-        </div>
-      </div>
-    </div>`;
+  resources.innerHTML=`<div class="public-resources-inner"><div class="public-announcement"><span class="public-badge">📢 RESULT UPDATE</span><h2>All Punjab educational boards (BISE) will announce the Matric (Class 10th) examination results tomorrow morning at 10 AM, Insha'Allah.</h2><p>Best wishes and prayers to all students that you receive the best rewards for your hard work.</p></div><div class="punjab-links"><div class="public-heading"><span class="eyebrow">PUNJAB BOARDS</span><h3>Official board websites</h3></div><div class="punjab-grid"><a href="https://www.biselahore.com/" target="_blank" rel="noopener noreferrer"><b>1️⃣ BISE Lahore</b><small>www.biselahore.com</small></a><a href="https://www.bisefsd.edu.pk/" target="_blank" rel="noopener noreferrer"><b>2️⃣ BISE Faisalabad</b><small>www.bisefsd.edu.pk</small></a><a href="https://www.bisegrw.edu.pk/" target="_blank" rel="noopener noreferrer"><b>3️⃣ BISE Gujranwala</b><small>www.bisegrw.edu.pk</small></a><a href="https://www.biserwp.edu.pk/" target="_blank" rel="noopener noreferrer"><b>4️⃣ BISE Rawalpindi</b><small>www.biserwp.edu.pk</small></a><a href="https://www.bisemultan.edu.pk/" target="_blank" rel="noopener noreferrer"><b>5️⃣ BISE Multan</b><small>www.bisemultan.edu.pk</small></a><a href="https://www.bisesargodha.edu.pk/" target="_blank" rel="noopener noreferrer"><b>6️⃣ BISE Sargodha</b><small>www.bisesargodha.edu.pk</small></a><a href="https://www.bisebwp.edu.pk/" target="_blank" rel="noopener noreferrer"><b>7️⃣ BISE Bahawalpur</b><small>www.bisebwp.edu.pk</small></a><a href="https://www.bisedgkhan.edu.pk/" target="_blank" rel="noopener noreferrer"><b>8️⃣ BISE DG Khan</b><small>www.bisedgkhan.edu.pk</small></a><a href="https://www.bisesahiwal.edu.pk/" target="_blank" rel="noopener noreferrer"><b>9️⃣ BISE Sahiwal</b><small>www.bisesahiwal.edu.pk</small></a></div><div class="resource-actions"><a class="resource-btn" href="https://drive.google.com/drive/folders/1DcUxsbm6SxqLqGGJ_Nx3Sci0A-sNXpiW?usp=sharing" target="_blank" rel="noopener noreferrer">📄 All Punjab Boards Result Gazette PDF ↗</a></div></div></div>`;
   const target=document.querySelector('.trust-strip');
   if(target)target.parentNode.insertBefore(resources,target);
   const style=document.createElement('style');
@@ -47,8 +23,7 @@ window.PAK_ADS={
   const validClient=/^ca-pub-\d+$/.test(String(config.client||''));
   if(!config.enabled||config.provider!=='adsense'||!validClient)return;
   const script=document.createElement('script');
-  script.async=true;
-  script.crossOrigin='anonymous';
+  script.async=true;script.crossOrigin='anonymous';
   script.src=`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(config.client)}`;
   document.head.appendChild(script);
   document.querySelectorAll('[data-ad-slot]').forEach(container=>{
@@ -59,9 +34,14 @@ window.PAK_ADS={
   });
 })();
 
-(function loadResultPdf(){
-  const s=document.createElement('script');
-  s.src='/result-pdf.js?v=20260817';
-  s.defer=true;
-  document.head.appendChild(s);
+(function addTrustLinks(){
+  const footer=document.querySelector('footer .footer-inner');
+  if(!footer)return;
+  const group=document.createElement('div');group.className='trust-links';
+  group.innerHTML='<b>Trust & Info</b><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a><a href="/disclaimer.html">Disclaimer</a>';
+  footer.appendChild(group);
+  const note=document.createElement('div');note.className='ad-disclosure';note.textContent='Advertising helps support this independent service. Ads never determine result information.';
+  footer.parentNode.appendChild(note);
 })();
+
+(function loadResultPdf(){const s=document.createElement('script');s.src='/result-pdf.js?v=20260817';s.defer=true;document.head.appendChild(s)})();
