@@ -4,152 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b5d3b" />
-    <meta name="description" content="Pakistan educational board result checker — board, class, year and exam based result lookup." />
-    <title>Pak Result Checker</title>
+    <meta name="description" content="Pakistan educational board result checker for 9th, 10th, 11th and 12th class results." />
+    <title>Pak Result Checker | Pakistan Board Results</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="topbar">
-      <div class="container topbar-inner">
-        <span>🇵🇰 Pakistan Education Results</span>
-        <span class="topbar-note">9th • 10th • 11th • 12th</span>
-      </div>
-    </div>
-
-    <header class="header">
-      <div class="container nav">
-        <a class="brand" href="#">
-          <span class="brand-mark">PR</span>
-          <span><strong>Pak Result</strong><small>Checker</small></span>
-        </a>
-        <nav>
-          <a href="#check">Check Result</a>
-          <a href="#boards">Boards</a>
-          <a href="#how">How it works</a>
-        </nav>
-      </div>
-    </header>
+    <div class="topbar"><div class="container topbar-inner"><span>🇵🇰 Pakistan Education Results</span><span class="topbar-note">9th • 10th • 11th • 12th</span></div></div>
+    <header class="header"><div class="container nav"><a class="brand" href="#"><span class="brand-mark">PR</span><span><strong>Pak Result</strong><small>Checker</small></span></a><nav><a href="#check">Check Result</a><a href="#boards">Boards</a><a href="#how">How it works</a></nav></div></header>
 
     <main>
-      <section class="hero" id="check">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <span class="eyebrow">PAKISTAN BOARD RESULTS</span>
-            <h1>Check your board result <span>in seconds.</span></h1>
-            <p>Select your board, class, year and exam type, then enter your roll number. The result engine is designed to support boards across Pakistan.</p>
-            <div class="trust-row">
-              <span>✓ Mobile friendly</span>
-              <span>✓ Fast search</span>
-              <span>✓ 9th–12th classes</span>
+      <section class="hero" id="check"><div class="container hero-grid">
+        <div class="hero-copy"><span class="eyebrow">PAKISTAN BOARD RESULTS</span><h1>Check your board result <span>in seconds.</span></h1><p>Select your city/board, class, year and exam type, then search by roll number or student name. The platform is structured for authorized result-source integrations.</p><div class="trust-row"><span>✓ Mobile friendly</span><span>✓ Fast search</span><span>✓ 9th–12th classes</span><span>✓ Print ready</span></div></div>
+        <div class="checker-card">
+          <div class="card-head"><div><span class="step-label">RESULT SEARCH</span><h2>Find your result</h2></div><span class="live-dot"><i></i> Ready</span></div>
+          <div class="notice"><strong>Development mode</strong><span>This release uses a clearly marked demo record. Official board/API sources will be connected only through authorized integrations.</span></div>
+          <form id="resultForm">
+            <div class="form-grid">
+              <label><span>Province / Region</span><select id="region" required></select></label>
+              <label><span>City / Board</span><select id="board" required></select></label>
+              <label><span>Class</span><select id="classLevel" required></select></label>
+              <label><span>Year</span><select id="year" required></select></label>
+              <label><span>Exam</span><select id="exam" required></select></label>
+              <label><span>Search by</span><select id="searchType" required><option value="roll">Roll Number</option><option value="name">Student Name</option></select></label>
             </div>
-          </div>
-
-          <div class="checker-card">
-            <div class="card-head">
-              <div>
-                <span class="step-label">RESULT SEARCH</span>
-                <h2>Find your result</h2>
-              </div>
-              <span class="live-dot"><i></i> Ready</span>
-            </div>
-
-            <div class="notice">
-              <strong>Development mode</strong>
-              <span>This first release uses clearly marked demo records. Official board/API integration will be connected before live public results are published.</span>
-            </div>
-
-            <form id="resultForm">
-              <div class="form-grid">
-                <label>
-                  <span>Board</span>
-                  <select id="board" required></select>
-                </label>
-                <label>
-                  <span>Class</span>
-                  <select id="classLevel" required></select>
-                </label>
-                <label>
-                  <span>Year</span>
-                  <select id="year" required></select>
-                </label>
-                <label>
-                  <span>Exam</span>
-                  <select id="exam" required></select>
-                </label>
-              </div>
-
-              <div class="search-mode" role="group" aria-label="Search mode">
-                <button type="button" class="mode active" data-mode="roll">Roll Number</button>
-                <button type="button" class="mode" data-mode="name">Student Name</button>
-              </div>
-
-              <label class="search-field">
-                <span id="searchLabel">Roll Number</span>
-                <input id="searchInput" inputmode="numeric" autocomplete="off" placeholder="e.g. 123456" required />
-                <small id="searchHint">Demo record: enter <b>123456</b> to preview the result card.</small>
-              </label>
-
-              <button class="primary-btn" type="submit">
-                <span>Check Result</span><span class="arrow">→</span>
-              </button>
-            </form>
-          </div>
+            <label class="search-field"><span id="searchLabel">Roll Number</span><input id="searchInput" inputmode="numeric" autocomplete="off" placeholder="e.g. 123456" required /><small id="searchHint">Demo record: enter <b>123456</b> to preview the result card.</small></label>
+            <button class="primary-btn" type="submit"><span>Check Result</span><span class="arrow">→</span></button>
+          </form>
         </div>
-      </section>
+      </div></section>
 
-      <section class="stats-section">
-        <div class="container stats-grid">
-          <div><strong>4</strong><span>Classes supported</span></div>
-          <div><strong>30+</strong><span>Board options planned</span></div>
-          <div><strong>2018–2026</strong><span>Year selector</span></div>
-          <div><strong>100%</strong><span>Responsive layout</span></div>
-        </div>
-      </section>
+      <section class="stats-section"><div class="container stats-grid"><div><strong>4</strong><span>Classes supported</span></div><div><strong>24+</strong><span>Board options listed</span></div><div><strong>2018–2026</strong><span>Year selector</span></div><div><strong>100%</strong><span>Responsive layout</span></div></div></section>
 
-      <section class="section" id="boards">
-        <div class="container">
-          <div class="section-heading">
-            <div><span class="eyebrow">BOARD COVERAGE</span><h2>Boards across Pakistan</h2></div>
-            <p>The selector is prepared for federal, Punjab, Sindh, Khyber Pakhtunkhwa, Balochistan, AJK and other boards.</p>
-          </div>
-          <div class="board-grid" id="boardGrid"></div>
-        </div>
-      </section>
+      <section class="section" id="boards"><div class="container"><div class="section-heading"><div><span class="eyebrow">BOARD DIRECTORY</span><h2>Boards across Pakistan</h2></div><p>Filter the directory by province/region or select any board to start a result search.</p></div><div class="board-toolbar"><label><span>Filter boards</span><select id="boardFilter"></select></label><div class="board-count" id="boardCount">24 boards</div></div><div class="board-grid" id="boardGrid"></div></div></section>
 
-      <section class="section light" id="how">
-        <div class="container">
-          <div class="section-heading centered">
-            <span class="eyebrow">SIMPLE PROCESS</span>
-            <h2>How result checking will work</h2>
-          </div>
-          <div class="steps">
-            <article><span>01</span><h3>Select board</h3><p>Choose the education board where the student appeared.</p></article>
-            <article><span>02</span><h3>Choose exam</h3><p>Select class, result year and Annual or Supplementary exam.</p></article>
-            <article><span>03</span><h3>Search result</h3><p>Enter roll number or the supported student search details.</p></article>
-            <article><span>04</span><h3>View & print</h3><p>See marks, grades, percentage, status and a print-friendly result.</p></article>
-          </div>
-        </div>
-      </section>
+      <section class="section light" id="how"><div class="container"><div class="section-heading centered"><span class="eyebrow">SIMPLE PROCESS</span><h2>How result checking will work</h2></div><div class="steps"><article><span>01</span><h3>Select location</h3><p>Choose the province/region and the education board where the student appeared.</p></article><article><span>02</span><h3>Choose exam</h3><p>Select class, result year and Annual or Supplementary / 2nd Annual.</p></article><article><span>03</span><h3>Search result</h3><p>Enter the roll number or the supported student name search details.</p></article><article><span>04</span><h3>View & print</h3><p>See marks, grades, percentage, status and a clean print-ready result.</p></article></div></div></section>
     </main>
 
-    <div class="modal" id="resultModal" aria-hidden="true">
-      <div class="modal-backdrop" data-close></div>
-      <div class="result-modal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
-        <button class="close" data-close aria-label="Close">×</button>
-        <div id="resultContent"></div>
-      </div>
-    </div>
-
-    <footer>
-      <div class="container footer-inner">
-        <div><strong>Pak Result Checker</strong><span>Built as an integration-ready Pakistan board result platform.</span></div>
-        <span>© 2026 Pak Result Checker</span>
-      </div>
-    </footer>
-
+    <div class="modal" id="resultModal" aria-hidden="true"><div class="modal-backdrop" data-close></div><div class="result-modal" role="dialog" aria-modal="true" aria-labelledby="resultTitle"><button class="close" data-close aria-label="Close">×</button><div id="resultContent"></div></div></div>
+    <footer><div class="container footer-inner"><div><strong>Pak Result Checker</strong><span>Integration-ready Pakistan board result platform.</span></div><span>© 2026 Pak Result Checker</span></div></footer>
     <script src="app.js"></script>
   </body>
 </html>
