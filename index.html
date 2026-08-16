@@ -4,67 +4,39 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#08623f" />
-<meta name="description" content="Check Pakistan educational board results for 9th, 10th, 11th and 12th classes." />
+<meta name="description" content="Check Pakistan educational board results for 9th, 10th, 11th and 12th classes. Search by board, class, year and roll number." />
 <meta name="robots" content="index,follow" />
-<title>Pak Result Checker — Pakistan Board Results</title>
+<meta name="googlebot" content="index,follow,max-image-preview:large" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Pak Result Checker — Pakistan Board Results" />
+<meta property="og:description" content="A fast, mobile-friendly Pakistan board result checker for 9th to 12th class." />
+<meta property="og:url" content="https://pak-result-checker.vercel.app/" />
+<meta name="twitter:card" content="summary" />
+<link rel="canonical" href="https://pak-result-checker.vercel.app/" />
+<link rel="manifest" href="/manifest.webmanifest" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
+<title>Pak Result Checker — Pakistan Board Results</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Pak Result Checker","url":"https://pak-result-checker.vercel.app/","description":"Pakistan educational board result search platform for 9th, 10th, 11th and 12th classes."}</script>
 </head>
 <body>
 <div class="topbar"><div class="container topbar-inner"><span>🇵🇰 Pakistan Board Results</span><span>Fast • Mobile Friendly • Print Ready</span></div></div>
-<header class="header"><div class="container nav">
-<a class="brand" href="#top" aria-label="Pak Result Checker home"><span class="brand-mark">PR</span><span><strong>Pak Result</strong><small>CHECKER</small></span></a>
-<nav><a href="#check">Check Result</a><a href="#boards">Boards</a><a href="#guides">Guides</a></nav>
-<a class="nav-cta" href="#check">Check Now <b>→</b></a>
-</div></header>
-
+<header class="header"><div class="container nav"><a class="brand" href="#top" aria-label="Pak Result Checker home"><span class="brand-mark">PR</span><span><strong>Pak Result</strong><small>CHECKER</small></span></a><nav><a href="#check">Check Result</a><a href="#boards">Boards</a><a href="#guides">Guides</a></nav><a class="nav-cta" href="#check">Check Now <b>→</b></a></div></header>
 <main id="top">
-<section class="hero" id="check"><div class="container hero-grid">
-<div class="hero-copy">
-<div class="pill"><span></span> PAKISTAN EDUCATION RESULTS</div>
-<h1>Check your board result <em>without the hassle.</em></h1>
-<p>Choose your board, class, year and exam type. Search by roll number and get a clean, easy-to-read result card.</p>
-<div class="hero-points"><span>✓ 9th–12th</span><span>✓ 24+ boards</span><span>✓ 2018–2026</span><span>✓ Print / Save</span></div>
-</div>
-<div class="checker-card">
-<div class="card-top"><div><small>RESULT CHECKER</small><h2>Find your result</h2></div><span class="secure"><i></i> Ready</span></div>
-<div class="demo-alert"><b>Preview mode</b><span>Use <strong>123456</strong> to test the result screen. Live board data requires an authorized source.</span></div>
-<form id="resultForm">
-<div class="form-grid">
-<label><span>Province / Region</span><select id="region" required></select></label>
-<label><span>City / Board</span><select id="board" required></select></label>
-<label><span>Class</span><select id="classLevel" required></select></label>
-<label><span>Result Year</span><select id="year" required></select></label>
-<label><span>Exam Type</span><select id="exam" required></select></label>
-<label><span>Search With</span><select id="searchType" required><option value="roll">Roll Number</option><option value="name">Student Name</option></select></label>
-</div>
-<label class="search-field"><span id="searchLabel">Roll Number</span><div class="input-wrap"><span>⌕</span><input id="searchInput" autocomplete="off" placeholder="Enter roll number" required /></div><small id="searchHint">Demo: <b>123456</b></small></label>
-<button class="primary-btn" type="submit"><span>Check Result</span><b>→</b></button>
-<div class="privacy-note">🔒 Your search is sent only to the selected result service.</div>
-</form>
-</div>
-</div></section>
-
+<section class="hero" id="check"><div class="container hero-grid"><div class="hero-copy"><div class="pill"><span></span> PAKISTAN EDUCATION RESULTS</div><h1>Check your board result <em>without the hassle.</em></h1><p>Choose your board, class, year and exam type. Search by roll number and get a clean, easy-to-read result card.</p><div class="hero-points"><span>✓ 9th–12th</span><span>✓ 24+ boards</span><span>✓ 2018–2026</span><span>✓ Print / Save</span></div></div>
+<div class="checker-card"><div class="card-top"><div><small>RESULT CHECKER</small><h2>Find your result</h2></div><span class="secure"><i></i> Ready</span></div><div class="demo-alert"><b>Preview mode</b><span>Use <strong>123456</strong> to test the result screen. Live board data requires an authorized source.</span></div>
+<form id="resultForm"><div class="form-grid"><label><span>Province / Region</span><select id="region" required></select></label><label><span>City / Board</span><select id="board" required></select></label><label><span>Class</span><select id="classLevel" required></select></label><label><span>Result Year</span><select id="year" required></select></label><label><span>Exam Type</span><select id="exam" required></select></label><label><span>Search With</span><select id="searchType" required><option value="roll">Roll Number</option><option value="name">Student Name</option></select></label></div><label class="search-field"><span id="searchLabel">Roll Number</span><div class="input-wrap"><span>⌕</span><input id="searchInput" autocomplete="off" placeholder="Enter roll number" required /></div><small id="searchHint">Demo: <b>123456</b></small></label><button class="primary-btn" type="submit"><span>Check Result</span><b>→</b></button><div class="privacy-note">🔒 Your search is sent only to the selected result service.</div></form></div></div></section>
 <div class="container ad-wrap ad-top"><div class="ad-slot" data-ad-slot="top"><span>ADVERTISEMENT</span></div></div>
-
 <section class="trust-strip"><div class="container trust-grid"><div><b>24+</b><span>Boards listed</span></div><div><b>4</b><span>Classes</span></div><div><b>9</b><span>Result years</span></div><div><b>2</b><span>Exam types</span></div></div></section>
-
-<section class="section" id="boards"><div class="container"><div class="section-heading"><div><span class="eyebrow">BOARD DIRECTORY</span><h2>Find your education board</h2></div><p>Select a region to quickly find the board and start your search.</p></div>
-<div class="board-toolbar"><label><span>Filter by region</span><select id="boardFilter"></select></label><span class="board-count" id="boardCount">24 boards</span></div>
-<div class="board-grid" id="boardGrid"></div></div></section>
-
+<section class="section" id="boards"><div class="container"><div class="section-heading"><div><span class="eyebrow">BOARD DIRECTORY</span><h2>Find your education board</h2></div><p>Select a region to quickly find the board and start your search.</p></div><div class="board-toolbar"><label><span>Filter by region</span><select id="boardFilter"></select></label><span class="board-count" id="boardCount">24 boards</span></div><div class="board-grid" id="boardGrid"></div></div></section>
 <div class="container ad-wrap"><div class="ad-slot ad-wide" data-ad-slot="middle"><span>ADVERTISEMENT</span></div></div>
-
-<section class="section soft" id="guides"><div class="container"><div class="section-heading centered"><span class="eyebrow">HOW IT WORKS</span><h2>Simple, clear and fast</h2><p>Everything is arranged in the same order you see on a board result search.</p></div>
-<div class="steps"><article><span>01</span><div class="step-icon">⌖</div><h3>Select board</h3><p>Choose your province and the board/city where the student appeared.</p></article><article><span>02</span><div class="step-icon">▣</div><h3>Select exam</h3><p>Choose class, year and Annual or Supplementary / 2nd Annual.</p></article><article><span>03</span><div class="step-icon">⌕</div><h3>Search result</h3><p>Enter the roll number or supported student name and submit.</p></article><article><span>04</span><div class="step-icon">✓</div><h3>View & print</h3><p>Review marks, grades, percentage and print a clean result.</p></article></div></div></section>
-
+<section class="section soft" id="guides"><div class="container"><div class="section-heading centered"><span class="eyebrow">HOW IT WORKS</span><h2>Simple, clear and fast</h2><p>Everything is arranged in the same order you see on a board result search.</p></div><div class="steps"><article><span>01</span><div class="step-icon">⌖</div><h3>Select board</h3><p>Choose your province and the board/city where the student appeared.</p></article><article><span>02</span><div class="step-icon">▣</div><h3>Select exam</h3><p>Choose class, year and Annual or Supplementary / 2nd Annual.</p></article><article><span>03</span><div class="step-icon">⌕</div><h3>Search result</h3><p>Enter the roll number or supported student name and submit.</p></article><article><span>04</span><div class="step-icon">✓</div><h3>View & print</h3><p>Review marks, grades, percentage and print a clean result.</p></article></div></div></section>
 <section class="section"><div class="container feature-grid"><div><span class="eyebrow">BUILT FOR STUDENTS</span><h2>A better result-checking experience.</h2><p>Designed to work beautifully on mobile phones, tablets and desktops, with clear result summaries and board-specific integrations.</p><div class="feature-list"><span>✓ Responsive on every screen</span><span>✓ Board-specific result providers</span><span>✓ Search error handling</span><span>✓ Print-friendly result cards</span></div></div><div class="mini-result"><div class="mini-head"><span>RESULT PREVIEW</span><b>PASS</b></div><h3>Muhammad Ali</h3><p>BISE Lahore • 10th • 2026</p><div class="mini-bars"><span><i style="width:92%"></i></span><span><i style="width:84%"></i></span><span><i style="width:79%"></i></span></div><div class="mini-total"><span>Percentage <b>82.71%</b></span><span>Grade <b>A</b></span></div></div></div></section>
 </main>
-
 <div class="modal" id="resultModal" aria-hidden="true"><div class="modal-backdrop" data-close></div><div class="result-modal" role="dialog" aria-modal="true" aria-labelledby="resultTitle"><button class="close" data-close aria-label="Close">×</button><div id="resultContent"></div></div></div>
 <div class="mobile-ad"><div class="ad-slot" data-ad-slot="mobile"><span>ADVERTISEMENT</span></div></div>
-<footer><div class="container footer-inner"><div><a class="brand footer-brand" href="#top"><span class="brand-mark">PR</span><span><strong>Pak Result</strong><small>CHECKER</small></span></a><p>Pakistan education result search platform.</p></div><div><b>Quick Links</b><a href="#check">Check Result</a><a href="#boards">Boards</a><a href="#guides">How it works</a></div><div><b>Disclaimer</b><p>Results are provided through authorized sources. Demo records are clearly labelled and are not official results.</p></div></div><div class="container copyright">© 2026 Pak Result Checker <span>Built for Pakistan students</span></div></footer>
+<footer><div class="container footer-inner"><div><a class="brand footer-brand" href="#top"><span class="brand-mark">PR</span><span><strong>Pak Result</strong><small>CHECKER</small></span></a><p>Pakistan education result search platform.</p></div><div><b>Quick Links</b><a href="#check">Check Result</a><a href="#boards">Boards</a><a href="#guides">How it works</a></div><div><b>Legal</b><a href="/privacy.html">Privacy Policy</a><a href="/disclaimer.html">Result Disclaimer</a></div></div><div class="container copyright">© 2026 Pak Result Checker <span>Built for Pakistan students</span></div></footer>
 <script src="ads.js"></script><script src="app.js"></script>
 </body></html>
