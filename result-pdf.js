@@ -1,34 +1,6 @@
 (function(){
-  const CDN='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-  let loading;
-  function load(){
-    if(window.jspdf?.jsPDF)return Promise.resolve(window.jspdf.jsPDF);
-    if(loading)return loading;
-    loading=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=CDN;s.onload=()=>resolve(window.jspdf.jsPDF);s.onerror=reject;document.head.appendChild(s)});
-    return loading;
-  }
-  function text(doc,label,value,y){doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(label,40,y);doc.setFont('helvetica','normal');doc.text(String(value||'—'),145,y);return y+16}
-  async function download(){
-    const root=document.getElementById('resultContent');
-    if(!root)return;
-    try{
-      const jsPDF=await load(); const doc=new jsPDF({unit:'pt',format:'a4'}); const W=doc.internal.pageSize.getWidth();
-      doc.setFillColor(6,58,40);doc.rect(0,0,W,70,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(20);doc.text('Pak Result Checker',40,32);doc.setFontSize(9);doc.text('OFFICIAL BOARD RESULT',40,50);
-      doc.setTextColor(20,40,30);let y=105;
-      const h=root.querySelector('.result-head h2'); if(h){doc.setFontSize(18);doc.setFont('helvetica','bold');doc.text(h.textContent.trim(),40,y);y+=24}
-      const meta=root.querySelector('.result-meta');if(meta){doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text(meta.textContent.trim(),40,y);y+=25}
-      const cards=[...root.querySelectorAll('.student-card div')];cards.forEach(c=>{const a=c.querySelector('span'),b=c.querySelector('b,strong');if(a)y=text(doc,a.textContent,b?.textContent,y)});
-      y+=5;doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text('Result Summary',40,y);y+=18;
-      [...root.querySelectorAll('.summary div')].forEach(c=>{const a=c.querySelector('span'),b=c.querySelector('b,strong');if(a){doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text(a.textContent.trim()+': '+(b?.textContent.trim()||'—'),40,y);y+=14}});
-      y+=10;doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text('Subject Marks',40,y);y+=18;
-      const rows=[...root.querySelectorAll('.table-wrap tbody tr')].map(tr=>[...tr.children].map(td=>td.textContent.trim()));
-      const heads=[...root.querySelectorAll('.table-wrap thead th')].map(th=>th.textContent.trim());
-      doc.setFontSize(8);doc.setFillColor(6,58,40);doc.setTextColor(255,255,255);doc.rect(40,y,W-80,20,'F');let xs=[45,260,350,440];heads.slice(0,4).forEach((v,i)=>doc.text(v,xs[i],y+13));y+=30;doc.setTextColor(20,40,30);doc.setFont('helvetica','normal');
-      rows.forEach(r=>{if(y>770){doc.addPage();y=45}doc.text(String(r[0]||'').slice(0,38),45,y);doc.text(String(r[1]||''),260,y);doc.text(String(r[2]||''),350,y);doc.text(String(r[3]||''),440,y);doc.setDrawColor(225,235,229);doc.line(40,y+5,W-40,y+5);y+=18});
-      doc.setFontSize(7);doc.setTextColor(120,135,126);doc.text('Generated from verified result data supplied by an authorized provider. Pak Result Checker does not invent marks.',40,805);
-      const name=(h?.textContent||'student-result').trim().replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').slice(0,50)||'student-result';doc.save(`${name}-result.pdf`);
-    }catch(e){window.print()}
-  }
-  const nativePrint=window.print;window.print=download;
-  window.downloadResultPDF=download;
+  const CDN='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'; let loading; const nativePrint=window.print.bind(window);
+  function load(){if(window.jspdf?.jsPDF)return Promise.resolve(window.jspdf.jsPDF);if(loading)return loading;loading=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=CDN;s.onload=()=>resolve(window.jspdf.jsPDF);s.onerror=reject;document.head.appendChild(s)});return loading}
+  async function download(){const root=document.getElementById('resultContent');if(!root)return;try{const jsPDF=await load(),doc=new jsPDF({unit:'pt',format:'a4'}),W=doc.internal.pageSize.getWidth();doc.setFillColor(6,58,40);doc.rect(0,0,W,70,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(20);doc.text('Pak Result Checker',40,32);doc.setFontSize(9);doc.text('OFFICIAL BOARD RESULT',40,50);doc.setTextColor(20,40,30);let y=105;const h=root.querySelector('.result-head h2');if(h){doc.setFontSize(18);doc.setFont('helvetica','bold');doc.text(h.textContent.trim(),40,y);y+=24}const meta=root.querySelector('.result-meta');if(meta){doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text(meta.textContent.trim(),40,y);y+=25}[...root.querySelectorAll('.student-card div')].forEach(c=>{const a=c.querySelector('span'),b=c.querySelector('b,strong');if(a){doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(a.textContent.trim(),40,y);doc.setFont('helvetica','normal');doc.text(String(b?.textContent||'—'),145,y);y+=16}});y+=5;doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text('Result Summary',40,y);y+=18;[...root.querySelectorAll('.summary div')].forEach(c=>{const a=c.querySelector('span'),b=c.querySelector('b,strong');if(a){doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text(a.textContent.trim()+': '+(b?.textContent.trim()||'—'),40,y);y+=14}});y+=10;doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text('Subject Marks',40,y);y+=18;const rows=[...root.querySelectorAll('.table-wrap tbody tr')].map(tr=>[...tr.children].map(td=>td.textContent.trim()));doc.setFontSize(8);doc.setFillColor(6,58,40);doc.setTextColor(255,255,255);doc.rect(40,y,W-80,20,'F');['Subject','Obtained','Total','Grade'].forEach((v,i)=>doc.text(v,[45,260,350,440][i],y+13));y+=30;doc.setTextColor(20,40,30);doc.setFont('helvetica','normal');rows.forEach(r=>{if(y>770){doc.addPage();y=45}doc.text(String(r[0]||'').slice(0,38),45,y);doc.text(String(r[1]||''),260,y);doc.text(String(r[2]||''),350,y);doc.text(String(r[3]||''),440,y);doc.setDrawColor(225,235,229);doc.line(40,y+5,W-40,y+5);y+=18});doc.setFontSize(7);doc.setTextColor(120,135,126);doc.text('Generated from verified result data supplied by an authorized provider. Pak Result Checker does not invent marks.',40,805);const name=(h?.textContent||'student-result').trim().replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').slice(0,50)||'student-result';doc.save(`${name}-result.pdf`)}catch(e){nativePrint()}}
+  window.print=download;window.downloadResultPDF=download;
 })();
