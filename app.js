@@ -44,8 +44,8 @@ function renderDirectory(r='All Pakistan'){
  boardGrid.querySelectorAll('[data-board]').forEach(x=>x.addEventListener('click',()=>selectBoard(x.dataset.board)));
 }
 function selectBoard(name){const b=boards.find(x=>x.name===name);if(!b)return;regionEl.value=b.region;renderOptions(b.region,b.name);boardFilterEl.value=b.region;if(boardSearchEl)boardSearchEl.value='';renderDirectory(b.region);$('#check').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>classEl.focus(),450)}
-function openModal(){modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');}
-function closeModal(){modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')}
+function openModal(){modal.setAttribute('aria-hidden','false');modal.classList.add('open');document.body.classList.add('modal-open');}
+function closeModal(){modal.setAttribute('aria-hidden','true');modal.classList.remove('open');document.body.classList.remove('modal-open')}
 function officialViewerUrl(board){return `official-result.html?board=${encodeURIComponent(board.name)}`}
 regionEl.innerHTML=options(regions);boardFilterEl.innerHTML=options(regions);yearEl.innerHTML=options(years);examEl.innerHTML=options(exams);
 renderOptions('All Pakistan');renderDirectory('All Pakistan');
