@@ -53,6 +53,45 @@ regionEl.addEventListener('change',()=>renderOptions(regionEl.value));boardEl.ad
 searchTypeEl.addEventListener('change',()=>{const name=searchTypeEl.value==='name';label.textContent=name?'Student Name':'Roll Number';input.inputMode=name?'text':'numeric';input.placeholder=name?'e.g. Muhammad Ali':'Enter roll number';hint.textContent=name?'Name search works only where the connected authorized provider supports it.':'Enter the student\'s roll number.';input.focus()});
 input.addEventListener('input',()=>{input.setCustomValidity('');if(searchTypeEl.value==='roll')input.value=input.value.replace(/[^0-9-]/g,'').slice(0,30)});
 document.querySelectorAll('[data-close]').forEach(x=>x.addEventListener('click',closeModal));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-form.addEventListener('submit',async e=>{e.preventDefault();const value=input.value.trim(),board=selectedBoard();if(!value||!board)return;if(searchTypeEl.value==='roll'&&value.length<2){input.setCustomValidity('Please enter a valid roll number.');input.reportValidity();return}const btn=form.querySelector('.primary-btn'),old=btn.innerHTML;btn.disabled=true;btn.innerHTML='<span>Checking verified source…</span><b>↻</b>';const params=new URLSearchParams({board:board.name,className:classEl.value,year:yearEl.value,exam:examEl.value,searchType:searchTypeEl.value,search:value});try{const r=await fetch(`/api/result?${params}`,{headers:{Accept:'application/json'}});const data=await r.json().catch(()=>({}));if(data.found&&data.result)showResult(true,data.result);else if(r.status===404)showResult(false,null,'No result was found for the selected board, class, year and exam.',{...data,board});else showResult(false,null,data.error||'A verified direct provider is not connected for this board yet.',{...data,board})}catch(_){showResult(false,null,'The result service is temporarily unavailable. The official result portal is still available below.',{board})}finally{btn.disabled=false;btn.innerHTML=old}});
+form.addEventListener('submit',async e=>{e.preventDefault();const value=input.value.trim(),board=selectedBoard();if(!value||!board)return;if(searchTypeEl.value==='roll'&&value.length<2){input.setCustomValidity('Please enter a valid roll number.');input.reportValidity();return}
+  // Show honest guidance immediately — no fake "checking" delay.
+  showBoardGuidance(board,value);
+  // Optionally try the authorized provider in the background (never blocks the UI).
+  try{
+    const params=new URLSearchParams({board:board.name,className:classEl.value,year:yearEl.value,exam:examEl.value,searchType:searchTypeEl.value,search:value});
+    const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),6000);
+    const r=await fetch(`/api/result?${params}`,{headers:{Accept:'application/json'},signal:ctrl.signal}).catch(()=>null);
+    clearTimeout(t);
+    if(r){const data=await r.json().catch(()=>({}));if(data.found&&data.result)showResult(true,data.result);}
+  }catch(_){/* background provider check is best-effort only */}
+});
+function showBoardGuidance(board,searchValue){
+  const cls=classEl.value,yr=yearEl.value,ex=examEl.value;
+  const isRoll=searchTypeEl.value==='roll';
+  resultContent.innerHTML=`
+  <div class="result-head"><span class="eyebrow">YOUR RESULT CHECKLIST</span>
+  <h2 id="resultTitle">${esc(board.name)} — ${esc(cls)}</h2>
+  <div class="result-meta">${esc(yr)} • ${esc(ex)}${isRoll?` • Roll No: <b>${esc(searchValue)}</b>`:''}</div></div>
+  <div class="guide-card">
+    <p class="guide-why">Pakistani boards block automated result fetching (anti-bot protection), so no website can pull your result directly. Use the <b>official ${esc(board.name)} portal</b> below — it takes less than a minute:</p>
+    <ol class="guide-steps">
+      <li>Tap the green button to open the official ${esc(board.name)} result portal (new tab).</li>
+      <li>Select <b>${esc(cls)}</b>, year <b>${esc(yr)}</b> and <b>${esc(ex)}</b> on the board's page.</li>
+      ${isRoll?`<li>Enter roll number <b class="roll-chip">${esc(searchValue)}</b> <button type="button" class="copy-btn" data-copy="${esc(searchValue)}">Copy</button> and submit.</li>`:`<li>Use the name search option on the board's portal.</li>`}
+    </ol>
+    <div class="official-actions">
+      <a class="primary-btn big" href="${esc(board.official)}" target="_blank" rel="noopener noreferrer">Open Official ${esc(board.short)} Result Portal ↗</a>
+      <a class="secondary-btn" href="official-result.html?board=${encodeURIComponent(board.name)}">More ways to check ↗</a>
+    </div>
+    <p class="guide-note">🔒 Your roll number never leaves your device — we do not store or transmit it. Boards may show a CAPTCHA; complete it on their official page.</p>
+  </div>
+  <div class="result-actions"><button class="secondary-btn primary" data-close>Back to search</button></div>`;
+  openModal();
+  resultContent.querySelectorAll('[data-close]').forEach(x=>x.addEventListener('click',closeModal));
+  resultContent.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{
+    const t=b.dataset.copy;
+    if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>{b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',1500)});
+  }));
+}
 function resultTotals(result){const subjects=Array.isArray(result?.subjects)?result.subjects:[];return subjects.reduce((a,s)=>({obtained:a.obtained+Number(s.obtained??s[1]??0),total:a.total+Number(s.total??s[2]??0)}),{obtained:0,total:0})}
 function showResult(found,result,errorMessage='Live result is not available from an authorized provider',meta={}){const b=meta.board||selectedBoard();if(!found){resultContent.innerHTML=`<div class="result-head"><span class="eyebrow">LIVE RESULT SEARCH</span><h2 id="resultTitle">Result not available here yet</h2><div class="result-meta">${esc(b?.name||'Selected board')} • ${esc(classEl.value)} • ${esc(yearEl.value)}</div></div><div class="official-source"><b>Official ${esc(b?.name||'board')} result service</b><span>${esc(errorMessage)} We do not bypass CAPTCHA, session tokens or anti-bot/security controls.</span><div class="official-actions"><a class="primary-btn" href="${esc(officialViewerUrl(b))}">View official result on Pak Result ↗</a><a class="secondary-btn" href="${esc(b?.official||'#')}" target="_blank" rel="noopener noreferrer">Open official board ↗</a></div></div><div class="source-note" style="margin-top:18px"><span class="source-icon">✓</span><div><b>Verified-source policy</b><small>We never invent student marks. A result is labelled official only when an authorized provider returns it.</small></div></div><div class="result-actions"><button class="secondary-btn primary" data-close>Back to search</button></div>`}else{const {obtained,total}=resultTotals(result);const pct=total?((obtained/total)*100).toFixed(2):'0.00';const status=String(result.status||'PASS').toUpperCase();const rows=(result.subjects||[]).map(s=>`<tr><td>${esc(s.name??s[0])}</td><td>${esc(s.obtained??s[1])}</td><td>${esc(s.total??s[2])}</td><td>${esc(s.grade??s[3])}</td></tr>`).join('');resultContent.innerHTML=`<div class="result-head"><span class="eyebrow">OFFICIAL BOARD RESULT</span><h2 id="resultTitle">${esc(result.name||'Student Result')}</h2><div class="result-meta">${esc(result.board)} • ${esc(result.className)} • ${esc(result.year)} • ${esc(result.exam)}</div><span class="result-verified"><i></i> Verified by authorized provider</span></div><div class="student-card"><div><span>Roll Number</span><b>${esc(result.roll||'—')}</b></div><div><span>Father Name</span><b>${esc(result.father||'—')}</b></div></div><div class="summary"><div><span>Total Obtained</span><b>${obtained}</b></div><div><span>Total Marks</span><b>${total}</b></div><div><span>Percentage</span><b>${pct}%</b></div><div><span>Status</span><b>${esc(status)}</b></div></div><div class="table-wrap"><table><thead><tr><th>Subject</th><th>Obtained</th><th>Total</th><th>Grade</th></tr></thead><tbody>${rows||'<tr><td colspan="4">No subject breakdown supplied by provider.</td></tr>'}</tbody></table></div><div class="result-actions"><button class="primary-btn" onclick="window.print()">Print / Save PDF</button><button class="secondary-btn primary" data-close>Back</button></div>`}openModal();resultContent.querySelectorAll('[data-close]').forEach(x=>x.addEventListener('click',closeModal))}
