@@ -127,10 +127,10 @@ body,.header,.checker-card,.board,.steps article,.mini-result,.result-modal,sele
 @media(max-width:760px){.back-top{bottom:calc(76px + env(safe-area-inset-bottom));right:12px}}
 /* ============ HERO POLISH ============ */
 .hero-copy{position:relative}
-.hero h1{background:linear-gradient(120deg,#10251b 30%,#0b5c38 60%,#10251b 90%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:heroSheen 9s ease-in-out infinite}
+.hero h1{background:linear-gradient(110deg,#10251b 20%,#149a63 40%,#10251b 60%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:heroSheen 6s linear infinite}
 .hero h1 em{-webkit-text-fill-color:#08764b}
-@keyframes heroSheen{0%,100%{background-position:0% center}50%{background-position:100% center}}
-[data-theme="dark"] .hero h1{background:linear-gradient(120deg,#e9f2ec 30%,#3ddc97 60%,#e9f2ec 90%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:heroSheen 9s ease-in-out infinite}
+@keyframes heroSheen{0%{background-position:0% center}100%{background-position:220% center}}
+[data-theme="dark"] .hero h1{background:linear-gradient(110deg,#e9f2ec 20%,#3ddc97 40%,#e9f2ec 60%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:heroSheen 6s linear infinite}
 [data-theme="dark"] .hero h1 em{-webkit-text-fill-color:#3ddc97}
 @media(prefers-reduced-motion:reduce){.hero h1{animation:none}}
 /* ============ MICRO-INTERACTIONS ============ */
@@ -148,3 +148,10 @@ body,.header,.checker-card,.board,.steps article,.mini-result,.result-modal,sele
 /* theme toggle in header layout */
 .nav{gap:12px}
 @media(max-width:760px){.theme-toggle{width:38px;height:38px}}
+
+/* dark mode: SEO content section */
+[data-theme="dark"] .seo-content{background:transparent}
+[data-theme="dark"] .seo-content h2{color:var(--dm-text)}
+[data-theme="dark"] .seo-content p{color:var(--dm-muted)}
+[data-theme="dark"] .seo-content .eyebrow{color:var(--dm-accent)}
+[data-theme="dark"] .seo-tags span{background:var(--dm-surface2);border:1px solid var(--dm-border);color:var(--dm-muted)}
