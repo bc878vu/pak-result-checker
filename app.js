@@ -95,3 +95,44 @@ function showBoardGuidance(board,searchValue){
 }
 function resultTotals(result){const subjects=Array.isArray(result?.subjects)?result.subjects:[];return subjects.reduce((a,s)=>({obtained:a.obtained+Number(s.obtained??s[1]??0),total:a.total+Number(s.total??s[2]??0)}),{obtained:0,total:0})}
 function showResult(found,result,errorMessage='Live result is not available from an authorized provider',meta={}){const b=meta.board||selectedBoard();if(!found){resultContent.innerHTML=`<div class="result-head"><span class="eyebrow">LIVE RESULT SEARCH</span><h2 id="resultTitle">Result not available here yet</h2><div class="result-meta">${esc(b?.name||'Selected board')} • ${esc(classEl.value)} • ${esc(yearEl.value)}</div></div><div class="official-source"><b>Official ${esc(b?.name||'board')} result service</b><span>${esc(errorMessage)} We do not bypass CAPTCHA, session tokens or anti-bot/security controls.</span><div class="official-actions"><a class="primary-btn" href="${esc(officialViewerUrl(b))}">View official result on Pak Result ↗</a><a class="secondary-btn" href="${esc(b?.official||'#')}" target="_blank" rel="noopener noreferrer">Open official board ↗</a></div></div><div class="source-note" style="margin-top:18px"><span class="source-icon">✓</span><div><b>Verified-source policy</b><small>We never invent student marks. A result is labelled official only when an authorized provider returns it.</small></div></div><div class="result-actions"><button class="secondary-btn primary" data-close>Back to search</button></div>`}else{const {obtained,total}=resultTotals(result);const pct=total?((obtained/total)*100).toFixed(2):'0.00';const status=String(result.status||'PASS').toUpperCase();const rows=(result.subjects||[]).map(s=>`<tr><td>${esc(s.name??s[0])}</td><td>${esc(s.obtained??s[1])}</td><td>${esc(s.total??s[2])}</td><td>${esc(s.grade??s[3])}</td></tr>`).join('');resultContent.innerHTML=`<div class="result-head"><span class="eyebrow">OFFICIAL BOARD RESULT</span><h2 id="resultTitle">${esc(result.name||'Student Result')}</h2><div class="result-meta">${esc(result.board)} • ${esc(result.className)} • ${esc(result.year)} • ${esc(result.exam)}</div><span class="result-verified"><i></i> Verified by authorized provider</span></div><div class="student-card"><div><span>Roll Number</span><b>${esc(result.roll||'—')}</b></div><div><span>Father Name</span><b>${esc(result.father||'—')}</b></div></div><div class="summary"><div><span>Total Obtained</span><b>${obtained}</b></div><div><span>Total Marks</span><b>${total}</b></div><div><span>Percentage</span><b>${pct}%</b></div><div><span>Status</span><b>${esc(status)}</b></div></div><div class="table-wrap"><table><thead><tr><th>Subject</th><th>Obtained</th><th>Total</th><th>Grade</th></tr></thead><tbody>${rows||'<tr><td colspan="4">No subject breakdown supplied by provider.</td></tr>'}</tbody></table></div><div class="result-actions"><button class="primary-btn" onclick="window.print()">Print / Save PDF</button><button class="secondary-btn primary" data-close>Back</button></div>`}openModal();resultContent.querySelectorAll('[data-close]').forEach(x=>x.addEventListener('click',closeModal))}
+
+/* ============ DARK MODE TOGGLE ============ */
+(function initTheme(){
+  const key='pakrc-theme';
+  const btn=document.getElementById('themeToggle');
+  function apply(t){
+    document.documentElement.setAttribute('data-theme',t);
+    if(btn)btn.textContent=t==='dark'?'☀️':'🌙';
+    try{localStorage.setItem(key,t)}catch(_){}
+  }
+  let saved=null;
+  try{saved=localStorage.getItem(key)}catch(_){}
+  if(saved==='dark'||saved==='light')apply(saved);
+  else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)apply('dark');
+  else apply('light');
+  if(btn)btn.addEventListener('click',()=>{
+    const cur=document.documentElement.getAttribute('data-theme');
+    apply(cur==='dark'?'light':'dark');
+  });
+})();
+
+/* ============ SCROLL REVEAL ============ */
+(function initReveal(){
+  const els=document.querySelectorAll('.section-heading,.board,.steps article,.feature-grid>div,.mini-result,.faq>div,.trust-grid div,.punjab-links');
+  els.forEach(el=>el.classList.add('reveal'));
+  if(!('IntersectionObserver' in window)){els.forEach(el=>el.classList.add('revealed'));return}
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('revealed');io.unobserve(en.target)}});
+  },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  els.forEach(el=>io.observe(el));
+})();
+
+/* ============ BACK TO TOP ============ */
+(function initBackTop(){
+  const b=document.createElement('button');
+  b.className='back-top';b.setAttribute('aria-label','Back to top');b.innerHTML='↑';
+  document.body.appendChild(b);
+  const onScroll=()=>{b.classList.toggle('show',window.scrollY>600)};
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+})();
